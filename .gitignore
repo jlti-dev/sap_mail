@@ -18,3 +18,5 @@
 *.swp
 # Ignore cnf files
 *.cnf
+# Ignore csv files
+*.csv

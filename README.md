@@ -50,3 +50,7 @@ The Subject will look like ERROR_SUBJECT SID[MANDT]
 ### MAIL_OFF
 
 You can disable the mails, if you want to test the integration with the SOST.
+
+## Prometheus
+
+This image provides basic statistics via Prometheus. Just scrape it at port 8080.

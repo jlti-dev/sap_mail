@@ -2,7 +2,7 @@ package main
 
 import(
 	"log"
-	gomail "github.com/xhit/go-simple-mail"
+	gomail "github.com/xhit/go-simple-mail/v2"
 	"strconv"
 	"os"
 	"fmt"

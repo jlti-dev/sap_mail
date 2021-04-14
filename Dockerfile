@@ -1,8 +1,7 @@
-FROM golang:latest as builder
+FROM golang:1.16 as builder
 WORKDIR /app
-RUN go get github.com/xhit/go-simple-mail && \
-	go get github.com/prometheus/client_golang/prometheus && \
-	go get github.com/prometheus/client_golang/prometheus/promhttp
+COPY go.mod go.mod
+RUN go mod download
 COPY app/ .
 RUN GCO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /app/main
 RUN rm -rf /app/*.go

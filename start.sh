@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 if [[ -z "${GATEWAY}" ]]; then
 	echo "No Gateway found, will not change routing"
 else
@@ -10,4 +10,6 @@ else
 	echo "changed routes for 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16"
 	echo "public nets are still available"
 fi
+echo "replacing own process"
+ls -alh /app
 /app/main

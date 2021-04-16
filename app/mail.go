@@ -49,7 +49,8 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 	m.SetFrom(sendRequest.From)
 	m.SetReplyTo(sendRequest.From)
 	m.AddTo(sendRequest.To)
-	if os.Getenv("MAIL_BCC") == "true" {
+	if server.ActivateBCC {
+		log.Println("[MAIL] BCC is activated")
 		m.AddBcc(sendRequest.From)
 		if m.Error != nil{
 			log.Printf("[MAIL] BCC = %s | TO = %s\n", sendRequest.From, sendRequest.To)

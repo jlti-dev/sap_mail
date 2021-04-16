@@ -57,7 +57,7 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 		}
 	}
 	if m.Error != nil{
-		return fmt.Printf("[MAIL] Error: %s", m.Error)
+		return fmt.Errorf("[MAIL] Error: %s", m.Error)
 	}
 	if sendRequest.MimeType == "text/html" {
 		log.Printf("[MAIL] Setting ContentType to text/html\n")

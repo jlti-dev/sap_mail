@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+        mail:
+                image: jlti/sap_mail:latest
+                restart: unless-stopped
+                volumes: 
+                        - "/etc/timezone:/etc/timezone:ro"
+                        - "/etc/localtime:/etc/localtime:ro"
+                        - "./data.csv:/app/data.csv:ro"
+                environment:
+                        # E-Mail
+                        - "SMTP_HOST=smtp.example.com"
+                        - "SMTP_PORT=465"
+                        - "SMTP_USER=example@example.com"
+                        - "SMTP_PASSWORD=S3cretP4ssword"
+                        - "SMTP_FROM=example@example.com"
+                          # Routing
+                        - "GATEWAY=8.8.8.8"
+                          # Fehlerhandling
+                        - "ERROR_MAIL=ERRORMAIL <example@example.com>"
+                        - "ERROR_SUBJECT=Mailpoll"
+                          # Settings
+                        - "MAIL_OFF=false"
+                cap_add:
+                        - NET_ADMIN

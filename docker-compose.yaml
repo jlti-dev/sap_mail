@@ -2,7 +2,8 @@ version: '3'
 
 services:
         mail:
-                build: .
+                #build: .
+                image: jlti/sap_mail:latest
                 restart: unless-stopped
                 volumes: 
                         - "/etc/timezone:/etc/timezone:ro"

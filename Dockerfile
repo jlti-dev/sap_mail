@@ -9,5 +9,5 @@ FROM buildpack-deps:latest
 WORKDIR /app
 COPY start.sh /app/start.sh
 COPY --from=builder /app/main /app/main
-CMD ["/bin/sh", "/app/start.sh"]
+CMD ["/bin/bash", "/app/start.sh"]
 #CMD /app/main

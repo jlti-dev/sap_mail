@@ -251,7 +251,7 @@ func getMailFromServer(server system, mc *MailCollector) (error){
 
 func sendDeleteToServer(uri string, mail mail, resGet *http.Response, client *http.Client, server system) (error){
 	url := fmt.Sprintf("%s(Objtp='%s',Objyr='%s',Objno='%s')",
-	uri,mail.Objtp, mail.Objyr, mail.Objno, mail.Fortp, mail.Foryr, mail.Forno, mail.Rectp, mail.Recyr, mail.Recno)
+	uri,mail.Objtp, mail.Objyr, mail.Objno)
 	log.Printf("[URL] DELETE %s\n", url)
 
 	reqDel,errDel := http.NewRequest("DELETE", url, nil)

@@ -52,11 +52,12 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 	if os.Getenv("MAIL_BCC") == "true" {
 		m.AddBcc(sendRequest.From)
 		if m.Error != nil{
-			log.Printf("[MAIL] found an error, but deleting it, as it is possible that BCC = TO\n")
 			log.Printf("[MAIL] BCC = %s | TO = %s\n", sendRequest.From, sendRequest.To)
 			log.Printf("[MAIL] Error: %s\n", m.Error)
-			m.Error = nil
 		}
+	}
+	if m.Error != nil{
+		return fmt.Printf("[MAIL] Error: %s", m.Error)
 	}
 	if sendRequest.MimeType == "text/html" {
 		log.Printf("[MAIL] Setting ContentType to text/html\n")
@@ -77,6 +78,7 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 		log.Printf("[MAIL] Added Attachment %s with Partnumber %d to Mail", a.Name, a.Partno)
 
 	}
+
 	err = m.SendEnvelopeFrom(os.Getenv("SMTP_USER"), smtpClient)
 
 	if err != nil{
@@ -93,7 +95,7 @@ func sendMailError(server system, logs []string, mc *MailCollector)error{
 	log.Println("[MAIL] Generating Error Mail from Logs")
 	mail := mail{}
 	mail.To = os.Getenv("ERROR_MAIL")
-	mail.From = os.Getenv("ERROR_MAIL")
+	mail.From = os.Getenv("SMTP_FROM")
 	mail.Subject = fmt.Sprintf("%s %s[%s]", os.Getenv("ERROR_SUBJECT"), server.SystemName, server.Mandant)
 
 	for _, logEntry := range logs {

@@ -51,9 +51,9 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 	addedRecipient := false
 	for _, receiver := range sendRequest.Receivers.Results{
 		log.Printf("[MAIL] Adding receiver %s in list for Mode %s", receiver.Mail, receiver.Modus)
-		if receiver.Modus == 'BCC' {
+		if receiver.Modus == "BCC" {
 			m.AddBcc(receiver.Mail)
-		}else if receiver.Modus == 'CC' {
+		}else if receiver.Modus == "CC" {
 			m.AddCc(receiver.Mail)
 		}else {
 			m.AddTo(receiver.Mail)

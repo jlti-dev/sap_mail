@@ -58,6 +58,11 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 		}else {
 			m.AddTo(receiver.Mail)
 		}
+		addedRecipient = true
+	}
+	if ! addedRecipient {
+		log.Printf("[MAIL] No recipients?"
+		return fmt.Errorf("[MAIL] No recipient found")
 	}
 	if server.ActivateBCC {
 		log.Println("[MAIL] BCC is activated")

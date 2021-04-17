@@ -13,12 +13,6 @@ type mail struct {
 	Objtp string `json:"Objtp"`
 	Objyr string `json:"Objyr"`
 	Objno string `json:"Objno"`
-	Fortp string `json:"Fortp"`
-	Foryr string `json:"Foryr"`
-	Forno string `json:"Forno"`
-	Rectp string `json:"Rectp"`
-	Recyr string `json:"Recyr"`
-	Recno string `json:"Recno"`
 	MimeType string `json:"MimeType"`
 
 	To string `json:"Mailto"`
@@ -26,6 +20,7 @@ type mail struct {
 	Subject string `json:"Subject"`
 	Body string `json:"Body"`
 	Attachments attachmentResults `json:"Attachments"`
+	Receivers receiverResults `json:"Receivers"`
 }
 type attachmentResults struct {
 	Results []attachment `json:"results"`
@@ -34,12 +29,6 @@ type attachment struct {
 	Objtp string `json:"Objtp"`
 	Objyr string `json:"Objyr"`
 	Objno string `json:"Objno"`
-	Fortp string `json:"Fortp"`
-	Foryr string `json:"Foryr"`
-	Forno string `json:"Forno"`
-	Rectp string `json:"Rectp"`
-	Recyr string `json:"Recyr"`
-	Recno string `json:"Recno"`
 	Partno int `json:"Partno"`
 
 	Name string `json:"Name"`
@@ -48,6 +37,16 @@ type attachment struct {
 	MimeType string `json:"Mimetype"`
 	data []byte
 	correctLoaded bool
+}
+type receiverResults struct {
+	Results []receiver	`json:"results"`
+}
+type receiver struct {
+	Objtp string `json:"Objtp"`
+	Objyr string `json:"Objyr"`
+	Objno string `json:"Objno"`
+	Mail string `json:"Mail"`
+	Modus string `json:"Modus"`
 }
 type result struct {
 	Results []mail `json:"results"`
@@ -67,7 +66,7 @@ func doSystem(server system, mc *MailCollector){
 }
 func getMailFromServer(server system, mc *MailCollector) (error){
 	baseUrl := fmt.Sprintf("http://%s:%s%s", server.ServerIP, server.Port, server.ServicePath)
-	url := fmt.Sprintf("%s/%s?%s&%s", baseUrl, server.FetchSet, "$expand=Attachments", "$format=json")
+	url := fmt.Sprintf("%s/%s?%s&%s", baseUrl, server.FetchSet, "$expand=Attachments,Receivers", "$format=json")
 	if server.Mandant != "" {
 		url = fmt.Sprintf("%s&sap-client=%s", url, server.Mandant)
 	}

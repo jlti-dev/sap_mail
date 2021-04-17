@@ -36,7 +36,7 @@ func main() {
 	for {
 		select {
 		case <- osCall:
-			log.Println("Shutdown received")
+			log.Fatalln("Shutdown received")
 			break
 		case <- ticker.C:
 			doSystems(mc, systems)

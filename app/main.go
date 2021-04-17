@@ -32,19 +32,24 @@ func main() {
 	mc := NewMailCollector()
 	go mc.Start(8080)
 	systems := readConfig()
+	doSystems(mc, systems)
 	for {
 		select {
 		case <- osCall:
 			log.Println("Shutdown received")
 			break
 		case <- ticker.C:
-			log.Println("[MAIN] Checking for Mails: Start")
-			for _, s := range systems{
-				go doSystem(s, mc)
-			}
-			log.Println("[MAIN] Checking for Mails: Finished")
+			doSystems(mc, systems)
 		}
 	}
+
+}
+func doSystems(mc *MailCollector, systems []system){
+	log.Println("[MAIN] Checking for Mails: Start")
+	for _, s := range systems{
+		go doSystem(s, mc)
+	}
+	log.Println("[MAIN] Checking for Mails: Finished")
 
 }
 func readConfig() []system {

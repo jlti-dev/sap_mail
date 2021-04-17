@@ -48,7 +48,22 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 	m := gomail.NewMSG()
 	m.SetFrom(sendRequest.From)
 	m.SetReplyTo(sendRequest.From)
-	m.AddTo(sendRequest.To)
+	addedRecipient := false
+	for _, receiver := range sendRequest.Receivers.Results{
+		log.Printf("[MAIL] Adding receiver %s in list for Mode %s", receiver.Mail, receiver.Modus)
+		if receiver.Modus == "BCC" {
+			m.AddBcc(receiver.Mail)
+		}else if receiver.Modus == "CC" {
+			m.AddCc(receiver.Mail)
+		}else {
+			m.AddTo(receiver.Mail)
+		}
+		addedRecipient = true
+	}
+	if ! addedRecipient {
+		log.Printf("[MAIL] No recipients?")
+		return fmt.Errorf("[MAIL] No recipient found")
+	}
 	if server.ActivateBCC {
 		log.Println("[MAIL] BCC is activated")
 		m.AddBcc(sendRequest.From)

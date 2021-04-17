@@ -20,3 +20,6 @@
 *.cnf
 # Ignore csv files
 *.csv
+#Yaml configurations
+*.yml
+

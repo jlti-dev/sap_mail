@@ -29,8 +29,6 @@ func connectToMailServer()(*gomail.SMTPClient, error){
 func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 	if sendRequest.From == "" {
 		return fmt.Errorf("[MAIL] From can not be empty")
-	}else if sendRequest.To == "" {
-		return fmt.Errorf("[MAIL] To can not be empty")
 	}else if sendRequest.Subject == "" {
 		return fmt.Errorf("[MAIL] Subject can not be empty")
 	}else if os.Getenv("MAIL_OFF") == "true"{
@@ -58,6 +56,10 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 		}else {
 			m.AddTo(receiver.Mail)
 		}
+		addedRecipient = true
+	}
+	if sendRequest.To != "" {
+		m.AddTo(sendRequest.To)
 		addedRecipient = true
 	}
 	if ! addedRecipient {

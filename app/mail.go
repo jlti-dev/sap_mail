@@ -22,7 +22,13 @@ func connectToMailServer()(*gomail.SMTPClient, error){
 	client.Port, _ = strconv.Atoi(os.Getenv("SMTP_PORT"))
 	client.Username = os.Getenv("SMTP_USER")
 	client.Password = os.Getenv("SMTP_PASSWORD")
-	client.Encryption = gomail.EncryptionSSL
+	if client.Port == 465 {
+		client.Encryption = gomail.EncryptionSSLTLS
+	}else if client.Port == 587 {
+		client.Encryption = gomail.EncryptionSTARTTLS
+	}else{
+		return nil, fmt.Errorf("[ENV] PORT is set to an unknown int, must be 465 or 587")
+	}
 
 	return client.Connect()
 }

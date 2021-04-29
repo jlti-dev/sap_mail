@@ -23,13 +23,19 @@ func connectToMailServer()(*gomail.SMTPClient, error){
 	client.Username = os.Getenv("SMTP_USER")
 	client.Password = os.Getenv("SMTP_PASSWORD")
 	if client.Port == 465 {
+		log.Println("[MAIL] Using Encryption SSL")
 		client.Encryption = gomail.EncryptionSSLTLS
 	}else if client.Port == 587 {
+		log.Println("[MAIL] Using Encryption STARTSSL")
 		client.Encryption = gomail.EncryptionSTARTTLS
 	}else{
 		return nil, fmt.Errorf("[ENV] PORT is set to an unknown int, must be 465 or 587")
 	}
-
+	if client.Host == "smtp.office365.com" {
+		log.Println("[MAIL] Detected office365, using Authentication \"AuthLogin\"")
+		client.Authentication = gomail.AuthLogin
+	}
+	
 	return client.Connect()
 }
 func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {

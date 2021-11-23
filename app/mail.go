@@ -48,6 +48,12 @@ func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 		return nil
 	}
 
+	if os.Getenv("SEND_AS_FORBIDDEN") != "" && os.Getenv("SMTP_FROM") != sendRequest.From {
+		log.Printf("[MAIL] SEND_AS is forbidden by customizing, replacing Sender %s with %s", sendRequest.From, os.Getenv("SMTP_FROM"))
+		sendRequest.From(os.Getenv("SMTP_FROM"))
+		
+	}
+
 	log.Printf("[MAIL] \"%s\" for \"%s\" from \"%s\"\n", sendRequest.Subject, sendRequest.To, sendRequest.From)
 
 	smtpClient, err := connectToMailServer()

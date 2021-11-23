@@ -51,6 +51,11 @@ The Subject will look like ERROR_SUBJECT SID[MANDT]
 
 You can disable the mails, if you want to test the integration with the SOST.
 
+### SEND_AS_FORBIDDEN
+
+If your mailsystem forbids that you send as a different user, mark this as true
+
+
 ## Prometheus
 
 This image provides basic statistics via Prometheus. Just scrape it at port 8080.

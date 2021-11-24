@@ -1,8 +1,8 @@
-FROM golang:1.16 as builder
+FROM golang:1.17 as builder
 WORKDIR /app
-COPY go.mod go.mod
-RUN go mod download
+#COPY go.mod go.mod
 COPY app/ .
+run go mod init github.com/jlti-dev/sap_mail && go mod tidy
 RUN GCO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -o /app/main .
 
 FROM buildpack-deps:latest

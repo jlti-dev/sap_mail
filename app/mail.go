@@ -40,7 +40,11 @@ func connectToMailServer()(*gomail.SMTPClient, error){
 }
 func sendMailSimple(server system, sendRequest mail, mc *MailCollector) error {
 	if sendRequest.From == "" {
-		return fmt.Errorf("[MAIL] From can not be empty")
+		if os.Getenv("SEND_AS_FORBIDDEN") != "" {
+			log.Println("[MAIL] there is no sender set, however this is recovered as there is SEND_AS_FORBIDDEN set")
+		}else{
+			return fmt.Errorf("[MAIL] From can not be empty")
+		}
 	}else if sendRequest.Subject == "" {
 		return fmt.Errorf("[MAIL] Subject can not be empty")
 	}else if os.Getenv("MAIL_OFF") == "true"{
